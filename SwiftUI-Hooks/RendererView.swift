@@ -79,6 +79,7 @@ struct RendererView : View {
         var effectDepSlots = [Any]()
         var pendingEffects = [EffectCallback]()
         var initialRendering = true
+        var updatingScheduled = false
         var didChange = PassthroughSubject<InternalState, Never>()
         
         enum HookType {
@@ -99,7 +100,7 @@ struct RendererView : View {
             
             let setter: StateSetter<S> = {
                 self.stateSlots[index] = $0
-                self.didChange.send(self)
+                self.scheduleUpdating()
             }
             
             return (stateSlots[index] as! S, setter)
@@ -138,6 +139,18 @@ struct RendererView : View {
             }
             callCounter[type] = count
             return count - 1
+        }
+        
+        func scheduleUpdating() {
+            guard !updatingScheduled else {
+                return
+            }
+            
+            updatingScheduled = true
+            OperationQueue.main.addOperation {
+                self.didChange.send(self)
+                self.updatingScheduled = false
+            }
         }
         
         func willBeginRendering() {
