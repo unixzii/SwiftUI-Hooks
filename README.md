@@ -29,7 +29,7 @@ let ContentView = { RendererView { hooks in
 
 ## Prior Art
 
-This is fully inspired by [React Hooks](https://reactjs.org/docs/hooks-intro.html). To learn more about what hooks are doing, please first check out the React documentation. And the API design in this PoC is also followed by the React spec, you can literally map what you learned to this.
+This is fully inspired by [React Hooks](https://reactjs.org/docs/hooks-intro.html). To learn more about what hooks are doing, please first check out the React documentation. And the API design in this PoC also follows the React spec, you can literally map what you learned to this.
 
 ## API References
 
