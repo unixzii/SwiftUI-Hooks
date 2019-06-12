@@ -138,6 +138,7 @@ struct RendererView : View {
         
     }
     
+    // To make compiler happy, `AnyView` type is required.
     typealias Renderer = (RendererViewHooks) -> AnyView
     
     fileprivate let renderer: Renderer
