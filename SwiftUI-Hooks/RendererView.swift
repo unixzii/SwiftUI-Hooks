@@ -42,6 +42,24 @@ protocol RendererViewHooks {
     
 }
 
+extension RendererViewHooks {
+    
+    typealias ReducerFunc<S, A> = (S, A) -> S
+    typealias DispatchFunc<A> = (A) -> ()
+    
+    func useReducer<S, A>(_ reducer: @escaping ReducerFunc<S, A>,
+                          initial: S) -> (S, DispatchFunc<A>) {
+        let (state, setState) = useState(initial: initial)
+        
+        let dispatch: DispatchFunc<A> = {
+            let newState = reducer(state, $0)
+            setState(newState)
+        }
+        return (state, dispatch)
+    }
+    
+}
+
 struct RendererView : View {
     
     struct TriggerOnceDep : Hashable {
